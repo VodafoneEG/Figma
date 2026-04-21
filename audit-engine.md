@@ -237,9 +237,7 @@ Follow these enhanced annotation requirements during audits:
 
 After completing the audit and generating all annotations:
 
-- identify and mention the file owner
-- add a comment that says `⚠️ Audit Notice: This file contains design system inconsistencies. Please review all "Audit" annotations and resolve the highlighted issues.`
-- mention the file owner in that comment
+- Identify and mention the file owner and add a comment that says `⚠️ Audit Notice: This file contains design system inconsistencies. Please review all "Audit" annotations and resolve the highlighted issues.` and mention the file owner in that comment
 ---
 
 # SEVERITY RULES
