@@ -11,7 +11,28 @@ priority: high
 Audit a Figma file against a design system and return structured, actionable findings.
 
 ---
+# ENVIRONMENT VALIDATION
 
+## Pre-Execution Check
+
+- verify Desktop Bridge connection status
+- verify MCP tool contract availability
+
+## Condition Logic
+
+- IF Desktop Bridge is NOT connected OR MCP tool contract is NOT available:
+  - retry connection and initialization
+  - attempt automatic fix
+
+- IF status is confirmed:
+  - "Desktop Bridge is up and running and MCP server is working"
+  - proceed with executing the rest of the skill
+
+## Constraints
+
+- do NOT proceed with audit if both services are not confirmed
+- retry must occur before failing execution
+---
 # INPUT REQUIREMENTS
 
 ## Required
@@ -178,23 +199,47 @@ Each finding MUST follow:
 
 # ANNOTATION FORMAT
 
-## Single Issue
-- ❌ Issue:
-- 🎯 Expected:
-- 🛠 Fix:
 
-## Rules
-- attach to exact layer
-- never attach to parent if child exists
-- label: Audit
+When the user asks for Figma-ready annotations, use this exact style:
 
----
+- ❌ Issue: [incorrect element or style]
+- 🎯 Expected: [correct design system reference]
+- 🛠 Fix: [exact action]
 
-# POST-PROCESS
+When the user asks to place annotations directly in Figma:
 
-- Add comment:
-  ⚠️ Audit Notice: This file contains design system inconsistencies and Mention the file owner directly within the same comment to ensure visibility and accountability by (@owner name).
+- attach them to the audited frame, component, or target node
+- preserve existing notes by using append mode unless replacement is requested
+- keep each annotation short and traceable to one concrete issue
 
+## Annotations
+
+Follow these enhanced annotation requirements during audits:
+
+- All annotations must use the label `Audit` to clearly distinguish them from other comments or notes
+- Each annotation must be directly linked to the relevant design element, such as the exact frame, component, text layer, or item where the issue exists
+- Ensure precise attachment to the exact layer with the issue so designers can identify and fix the problem without searching
+- Prefer the most specific layer available, not the parent container
+- For text-related issues, attach the annotation directly to the affected text node
+- For button, icon, or component issues, attach the annotation directly to that instance or layer
+- Use the parent frame only for summary notices or file-level follow-up, not for element-specific issues
+- Write annotations so they are context-aware, clear, actionable, and easy to understand at a glance
+- This exact-layer attachment rule is mandatory for every audit by default
+- Never place an element-specific issue on a parent frame when the exact child layer is available
+- If multiple layers have separate issues, annotate each layer individually instead of combining them into one parent-level note
+
+### Annotation Styling
+
+- The annotation label must always be `Audit`
+- The desired visual treatment is a red `Audit` label for high visibility
+- If the Figma annotation API does not expose label background color controls, keep the label text as `Audit` and use strong warning-oriented annotation content instead of inventing unsupported styling behavior
+- Do not claim a red background was applied unless the tool actually supports and confirms it
+
+After completing the audit and generating all annotations:
+
+- identify and mention the file owner
+- add a comment that says `⚠️ Audit Notice: This file contains design system inconsistencies. Please review all "Audit" annotations and resolve the highlighted issues.`
+- mention the file owner in that comment
 ---
 
 # SEVERITY RULES
