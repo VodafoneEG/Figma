@@ -16,8 +16,7 @@ Audit a Figma file against a design system and return structured, actionable fin
 
 ## Required
 - figma_file_url
-- design_system_reference
-- audit_scope
+- audit_scope: Validate using Master Design system Kit and Typography and the styles.
 
 ## Optional
 - pages
@@ -34,6 +33,80 @@ Audit a Figma file against a design system and return structured, actionable fin
   - Text styles
   - Effect styles
   - Layout guide styles
+
+
+# VARIABLES AUDIT
+
+## Purpose
+Validate that all design variables are correctly implemented, linked, and consistent with the design system.
+
+---
+
+## Scope
+
+- color variables
+- spacing variables
+- typography variables
+- radius variables
+- opacity variables
+- effect variables (shadow, blur)
+
+---
+
+## Validation Rules
+
+### 1. Variable Usage
+- ensure all applicable properties use variables
+- detect hardcoded values instead of variables
+
+### 2. Variable Source
+- ensure variables are linked to the approved design system
+- detect local or duplicated variables outside the system
+
+### 3. Variable Consistency
+- ensure consistent variable usage across similar components
+- detect mismatched variables for identical UI patterns
+
+### 4. Variable Naming
+- validate naming follows design system conventions
+- detect unclear or inconsistent naming patterns
+
+### 5. Variable Modes (if applicable)
+- validate correct mode usage (e.g., light / dark)
+- detect incorrect or missing mode assignments
+
+---
+
+## Detection Output
+
+Each issue MUST include:
+
+- problem:
+- expected_rule:
+- fix:
+- node_name:
+- node_id:
+- variable_name:
+- severity:
+
+---
+
+## Common Issues to Flag
+
+- hardcoded color instead of token
+- spacing not using predefined variable
+- incorrect variable applied (wrong semantic meaning)
+- duplicate variable with same value
+- detached variable reference
+- missing variable mode mapping
+
+---
+
+## Constraints
+
+- validate only against provided design system variables
+- do NOT suggest creating new variables unless explicitly requested
+- keep findings precise and actionable
 
 ---
 
